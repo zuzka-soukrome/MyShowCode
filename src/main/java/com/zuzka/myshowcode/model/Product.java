@@ -1,5 +1,6 @@
 package com.zuzka.myshowcode.model;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -17,8 +18,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, int quantityInStock, double pricePerUnit) {
-        this.id = id;
+    public Product(String name, int quantityInStock, double pricePerUnit) {
         this.name = name;
         this.quantityInStock = quantityInStock;
         this.pricePerUnit = pricePerUnit;

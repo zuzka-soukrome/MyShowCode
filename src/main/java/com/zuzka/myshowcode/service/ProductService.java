@@ -5,6 +5,7 @@ import com.zuzka.myshowcode.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -17,6 +18,14 @@ public class ProductService {
 
     public List<Product> getAllProducts(){
         return (List<Product>) repository.findAll();
+    }
+
+    public Optional<Product> getProductById(Long id){
+        return repository.findById(id);
+    }
+
+    public Optional<Product> getProductByName(String name){
+        return repository.findByName(name);
     }
 
     public void addNewProduct(Product product) {
