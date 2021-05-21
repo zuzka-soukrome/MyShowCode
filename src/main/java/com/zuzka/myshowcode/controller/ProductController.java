@@ -5,6 +5,7 @@ import com.zuzka.myshowcode.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,18 +27,31 @@ public class ProductController {
 
     @GetMapping(path = "/getById")
     public @ResponseBody String getProductById(@RequestParam Long id) {
-        return productService.getProductById(id).orElseThrow().toString();
+        return productService.getProductById(id).orElse(new Product()).toString();
     }
 
     @GetMapping(path = "/getByName")
     public @ResponseBody String getProductByName(@RequestParam String name) {
-        return productService.getProductByName(name).orElseThrow().toString();
+        return productService.getProductByName(name).orElse(new Product()).toString();
     }
 
     @PostMapping(path = "/add")
     public @ResponseBody String addNewProduct(@RequestParam String name, @RequestParam int quantityInStock, @RequestParam double pricePerUnit) {
         productService.addNewProduct(new Product(name, quantityInStock, pricePerUnit));
         return "New product saved";
+    }
+
+    @DeleteMapping(path = "/deleteById")
+    public @ResponseBody String deleteProductById(@RequestParam Long id){
+        productService.deleteProductById(id);
+        return "Product deleted";
+    }
+
+    @DeleteMapping(path = "/deleteByName")
+    @Transactional
+    public @ResponseBody String deleteProductById(@RequestParam String name){
+        productService.deleteProductByName(name);
+        return "Product deleted";
     }
 
 }
