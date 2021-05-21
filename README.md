@@ -11,3 +11,5 @@ LinkedIn: https://www.linkedin.com/in/zuzana-t%C5%AFmov%C3%A1-74ab8a105/
 * Maven 3
 
 ## How to run:
+In order to run this app you need to run docker containers. These containers are defined in `./docker-compose.yml` file.  
+`$ docker-compose up`

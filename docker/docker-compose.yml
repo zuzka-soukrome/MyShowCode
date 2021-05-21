@@ -9,6 +9,4 @@ services:
     environment:
         MYSQL_ROOT_USER: root
         MYSQL_ROOT_PASSWORD: you-shall-not-pass
-        MYSQL_USER: zuzka
-        MYSQL_PASSWORD: you-shall-not-pass-neither
         MYSQL_DATABASE: eshop
