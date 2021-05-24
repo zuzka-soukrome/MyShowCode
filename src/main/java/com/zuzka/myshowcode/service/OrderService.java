@@ -1,6 +1,6 @@
 package com.zuzka.myshowcode.service;
 
-import com.zuzka.myshowcode.model.Order;
+import com.zuzka.myshowcode.entity.Order;
 import com.zuzka.myshowcode.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
