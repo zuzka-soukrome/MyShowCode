@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
@@ -27,18 +24,36 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping(path = "/add")
+    @PostMapping()
     public ResponseEntity<ApiResponse> addNewOrder(@RequestBody OrderRequest order) {
-        log.info(order.toString());
         orderService.addNewOrder(order);
         return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product added"), HttpStatus.OK);
     }
 
     @GetMapping(path = "/getAll")
-    public String getAllProducts() {
-        return orderService.getAllOrders().stream()
+    public ResponseEntity<String> getAllProducts() {
+        String response = orderService.getAllOrders().stream()
                 .map(Object::toString)
                 .collect(Collectors.joining("\n"));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/get/{id}")
+    public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long id) {
+        String message = orderService.getOrderById(id).orElseThrow().toString();
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, message), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/pay/{id}")
+    public ResponseEntity<ApiResponse> payOrder(@PathVariable Long id) {
+        orderService.payOrder(id);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order paid"), HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/cancel/{id}")
+    public ResponseEntity<ApiResponse> cancelOrder(@PathVariable Long id) {
+        orderService.deleteProductById(id);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product deleted"), HttpStatus.OK);
     }
 
 }

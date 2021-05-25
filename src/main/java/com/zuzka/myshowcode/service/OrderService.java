@@ -3,14 +3,13 @@ package com.zuzka.myshowcode.service;
 import com.zuzka.myshowcode.dto.OrderRequest;
 import com.zuzka.myshowcode.entity.Order;
 import com.zuzka.myshowcode.repository.OrderRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Slf4j
 public class OrderService {
 
     private OrderRepository repository;
@@ -22,8 +21,6 @@ public class OrderService {
     }
 
     public void addNewOrder(OrderRequest order) {
-        Order o = modelMapper.map(order, Order.class);
-        log.info(o.toString());
         repository.save(modelMapper.map(order, Order.class));
 
     }
@@ -32,4 +29,15 @@ public class OrderService {
         return (List<Order>) repository.findAll();
     }
 
+    public Optional<Order> getOrderById(Long id) {
+        return repository.findById(id);
+    }
+
+    public void payOrder(Long id){
+        //TODO
+    }
+
+    public void deleteProductById(Long id) {
+        repository.deleteById(id);
+    }
 }

@@ -1,6 +1,7 @@
 package com.zuzka.myshowcode.entity;
 
 
+import com.zuzka.myshowcode.enums.OrderState;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,5 +18,7 @@ public class Order {
 
     @ElementCollection
     private List<Item> items;
+
+    private OrderState state;
 
 }

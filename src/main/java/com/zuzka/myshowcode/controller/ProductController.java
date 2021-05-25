@@ -22,16 +22,16 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping(path = "/add")
+    @PostMapping()
     public ResponseEntity<ApiResponse> addNewProduct(@RequestBody ProductRequest product) {
         productService.addNewProduct(product);
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product added"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order added"), HttpStatus.OK);
     }
 
     @PostMapping(path = "/update")
     public ResponseEntity<ApiResponse> updateProductById(@RequestBody ProductRequest product) {
         productService.updateProduct(product);
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product updated"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order updated"), HttpStatus.OK);
     }
 
     @GetMapping(path = "/getAll")
@@ -57,7 +57,7 @@ public class ProductController {
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<ApiResponse> deleteProductById(@PathVariable Long id) {
         productService.deleteProductById(id);
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product deleted"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order cancelled"), HttpStatus.OK);
     }
 
 }
