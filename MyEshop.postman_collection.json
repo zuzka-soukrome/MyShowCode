@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"name\":\"rohlik\",\n\"quantityInStock\":2,\n\"pricePerUnit\":200\n}",
+							"raw": "{\n\"name\":\"syr\",\n\"quantityInStock\":42,\n\"pricePerUnit\":34\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,15 +23,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/product/addname:rohlik,quantityInStock=2&pricePerUnit=200",
+							"raw": "http://localhost:8080/product",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"product",
-								"addname:rohlik,quantityInStock=2&pricePerUnit=200"
+								"product"
 							]
 						}
 					},
@@ -42,7 +41,18 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/product/getAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"product",
+								"getAll"
+							]
+						}
 					},
 					"response": []
 				},
@@ -51,7 +61,24 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/product/getById?id=20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"product",
+								"getById"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "20"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -60,16 +87,50 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/product/getByName?name=mleko",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"product",
+								"getByName"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "mleko"
+								}
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "DeleteProductById",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/product/deleteById?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"product",
+								"deleteById"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -80,7 +141,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"name\":\"chleb\",\n\"quantityInStock\":111,\n\"pricePerUnit\":36.95\n}",
+							"raw": "{\n\"name\":\"syr\",\n\"quantityInStock\":111,\n\"pricePerUnit\":36.0\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -114,7 +175,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"OrderRequest\":{\n    \"itemRequest\": [\n       { \"productName\":\"rohlik\", \"quantity\":10 },\n       { \"productName\":\"maslo\", \"quantity\":1 }\n    ]\n}}",
+							"raw": "{\"items\": [\n       { \"productName\":\"rohlik\", \"quantity\":10 },\n       { \"productName\":\"maslo\", \"quantity\":1 }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -122,15 +183,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/order/add",
+							"raw": "http://localhost:8080/order",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"order",
-								"add"
+								"order"
 							]
 						}
 					},
@@ -141,7 +201,18 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/order/getAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"order",
+								"getAll"
+							]
+						}
 					},
 					"response": []
 				},
@@ -150,16 +221,40 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/order/get/72",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"order",
+								"get",
+								"72"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "CancelOrder",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/order/cancel/72",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"order",
+								"cancel",
+								"72"
+							]
+						}
 					},
 					"response": []
 				},
@@ -168,7 +263,19 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/order/pay/73",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"order",
+								"pay",
+								"73"
+							]
+						}
 					},
 					"response": []
 				}
