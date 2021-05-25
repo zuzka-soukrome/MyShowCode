@@ -1,11 +1,13 @@
 package com.zuzka.myshowcode.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ItemRequest {
 
     private String productName;
-    private Integer quantity;
+    private int quantity;
 
 }

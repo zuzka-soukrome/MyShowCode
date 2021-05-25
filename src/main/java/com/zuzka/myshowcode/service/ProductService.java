@@ -25,7 +25,7 @@ public class ProductService {
     }
 
     public void updateProduct(ProductRequest update) {
-        Product product = getProductByName(update.getName()).orElseThrow();
+        var product = getProductByName(update.getName()).orElseThrow();
         modelMapper.map(update, product);
         repository.save(product);
     }

@@ -1,14 +1,18 @@
 package com.zuzka.myshowcode.controller;
 
+import com.google.gson.Gson;
 import com.zuzka.myshowcode.dto.ApiResponse;
+import com.zuzka.myshowcode.dto.ItemRequest;
 import com.zuzka.myshowcode.dto.OrderRequest;
 import com.zuzka.myshowcode.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,8 +30,12 @@ public class OrderController {
 
     @PostMapping()
     public ResponseEntity<ApiResponse> addNewOrder(@RequestBody OrderRequest order) {
-        orderService.addNewOrder(order);
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product added"), HttpStatus.OK);
+        List<ItemRequest> missingItems = orderService.addNewOrder(order);
+        if (ObjectUtils.isEmpty(missingItems)) {
+            return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product added"), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ApiResponse("ITEMS_MISSING", new Gson().toJson(missingItems)), HttpStatus.OK);
+        }
     }
 
     @GetMapping(path = "/getAll")
@@ -40,7 +48,7 @@ public class OrderController {
 
     @GetMapping(path = "/get/{id}")
     public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long id) {
-        String message = orderService.getOrderById(id).orElseThrow().toString();
+        var message = orderService.getOrderById(id).orElseThrow().toString();
         return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, message), HttpStatus.OK);
     }
 
