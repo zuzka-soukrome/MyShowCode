@@ -52,7 +52,7 @@ public class OrderController {
 
     @DeleteMapping(path = "/cancel/{id}")
     public ResponseEntity<ApiResponse> cancelOrder(@PathVariable Long id) {
-        orderService.deleteProductById(id);
+        orderService.cancelOrder(id);
         return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product deleted"), HttpStatus.OK);
     }
 
