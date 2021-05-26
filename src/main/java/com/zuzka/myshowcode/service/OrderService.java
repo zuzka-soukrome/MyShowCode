@@ -70,7 +70,7 @@ public class OrderService {
     public void checkForExpiredOrders() {
         getAllOrders().stream()
                 .filter(order -> OrderState.NEW.equals(order.getState()))
-                .filter(order -> order.getCreateDateTime().until(LocalDateTime.now(), ChronoUnit.SECONDS) > 10)
+                .filter(order -> order.getCreateDateTime().until(LocalDateTime.now(), ChronoUnit.MINUTES) > orderExpirationTime)
                 .forEach(order -> {
                     cancelOrder(order.getId());
                     log.info("Order with id={} has expired. Cancelling the order.", order.getId());
