@@ -1,6 +1,5 @@
 package com.zuzka.myshowcode.controller;
 
-import com.google.gson.Gson;
 import com.zuzka.myshowcode.dto.ApiResponse;
 import com.zuzka.myshowcode.dto.ProductRequest;
 import com.zuzka.myshowcode.entity.Product;
@@ -42,7 +41,7 @@ public class ProductController {
     @Operation(summary = "Get all products")
     public ResponseEntity<ApiResponse> getAllProducts() {
         List<Product> allProducts = productService.getAllProducts();
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, new Gson().toJson(allProducts)), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, allProducts.toString()), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")

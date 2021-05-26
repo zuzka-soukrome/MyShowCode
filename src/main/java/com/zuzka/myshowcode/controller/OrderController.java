@@ -1,6 +1,5 @@
 package com.zuzka.myshowcode.controller;
 
-import com.google.gson.Gson;
 import com.zuzka.myshowcode.dto.ApiResponse;
 import com.zuzka.myshowcode.dto.ItemRequest;
 import com.zuzka.myshowcode.dto.OrderRequest;
@@ -35,7 +34,7 @@ public class OrderController {
         if (ObjectUtils.isEmpty(missingItems)) {
             return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product added"), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ApiResponse("ITEMS_MISSING", new Gson().toJson(missingItems)), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponse("ITEMS_MISSING", missingItems.toString()), HttpStatus.OK);
         }
     }
 
@@ -43,7 +42,7 @@ public class OrderController {
     @Operation(summary = "Get all orders")
     public ResponseEntity<ApiResponse> getAllProducts() {
         List<Order> allOrders = orderService.getAllOrders();
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, new Gson().toJson(allOrders)), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, allOrders.toString()), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
@@ -61,7 +60,7 @@ public class OrderController {
     }
 
     @PatchMapping(path = "/cancel/{id}")
-    @Operation(summary = "Cancel an order bz ID")
+    @Operation(summary = "Cancel an order by ID")
     public ResponseEntity<ApiResponse> cancelOrder(@PathVariable Long id) {
         orderService.cancelOrder(id);
         return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product deleted"), HttpStatus.OK);
