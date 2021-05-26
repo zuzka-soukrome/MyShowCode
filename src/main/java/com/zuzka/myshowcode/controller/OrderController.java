@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.zuzka.myshowcode.dto.ApiResponse;
 import com.zuzka.myshowcode.dto.ItemRequest;
 import com.zuzka.myshowcode.dto.OrderRequest;
+import com.zuzka.myshowcode.entity.Order;
 import com.zuzka.myshowcode.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,6 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -38,11 +38,9 @@ public class OrderController {
     }
 
     @GetMapping(path = "/getAll")
-    public ResponseEntity<String> getAllProducts() {
-        String response = orderService.getAllOrders().stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n"));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<ApiResponse> getAllProducts() {
+        List<Order> allOrders = orderService.getAllOrders();
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, new Gson().toJson(allOrders)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/get/{id}")

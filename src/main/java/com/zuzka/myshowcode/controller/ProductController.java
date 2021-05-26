@@ -1,13 +1,15 @@
 package com.zuzka.myshowcode.controller;
 
+import com.google.gson.Gson;
 import com.zuzka.myshowcode.dto.ApiResponse;
 import com.zuzka.myshowcode.dto.ProductRequest;
+import com.zuzka.myshowcode.entity.Product;
 import com.zuzka.myshowcode.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/product")
@@ -34,11 +36,9 @@ public class ProductController {
     }
 
     @GetMapping(path = "/getAll")
-    public ResponseEntity<String> getAllProducts() {
-        String response = productService.getAllProducts().stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n"));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<ApiResponse> getAllProducts() {
+        List<Product> allProducts = productService.getAllProducts();
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, new Gson().toJson(allProducts)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/get/{id}")
