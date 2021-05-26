@@ -5,12 +5,11 @@ import com.zuzka.myshowcode.dto.ProductRequest;
 import com.zuzka.myshowcode.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping(path = "/product")
 public class ProductController {
 
@@ -28,7 +27,7 @@ public class ProductController {
         return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order added"), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/update")
+    @PutMapping()
     public ResponseEntity<ApiResponse> updateProductById(@RequestBody ProductRequest product) {
         productService.updateProduct(product);
         return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order updated"), HttpStatus.OK);
@@ -44,13 +43,13 @@ public class ProductController {
 
     @GetMapping(path = "/get/{id}")
     public ResponseEntity<ApiResponse> getProductById(@PathVariable Long id) {
-        String message = productService.getProductById(id).orElseThrow().toString();
+        var message = productService.getProductById(id).orElseThrow().toString();
         return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, message), HttpStatus.OK);
     }
 
     @GetMapping(path = "/getByName")
     public ResponseEntity<ApiResponse> getProductByName(@RequestParam String name) {
-        String message = productService.getProductByName(name).orElseThrow().toString();
+        var message = productService.getProductByName(name).orElseThrow().toString();
         return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, message), HttpStatus.OK);
     }
 

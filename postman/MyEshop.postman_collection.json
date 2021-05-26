@@ -37,6 +37,34 @@
 					"response": []
 				},
 				{
+					"name": "UpdateProduct",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\":\"syr\",\n\"quantityInStock\":111,\n\"pricePerUnit\":36.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetAllProducts",
 					"request": {
 						"method": "GET",
@@ -133,35 +161,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "UpdateProduct",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\"name\":\"syr\",\n\"quantityInStock\":111,\n\"pricePerUnit\":36.0\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/product/update",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"product",
-								"update"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -238,27 +237,6 @@
 					"response": []
 				},
 				{
-					"name": "CancelOrder",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/order/cancel/72",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"order",
-								"cancel",
-								"72"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "PayOrder",
 					"request": {
 						"method": "GET",
@@ -274,6 +252,27 @@
 								"order",
 								"pay",
 								"73"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CancelOrder",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/order/cancel/72",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"order",
+								"cancel",
+								"72"
 							]
 						}
 					},
