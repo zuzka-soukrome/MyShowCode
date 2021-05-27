@@ -27,14 +27,14 @@ public class ProductController {
     @Operation(summary = "Add a new product")
     public ResponseEntity<ApiResponse> addNewProduct(@RequestBody ProductRequest product) {
         productService.addNewProduct(product);
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order added"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product added"), HttpStatus.OK);
     }
 
     @PutMapping()
     @Operation(summary = "Update an existing product")
     public ResponseEntity<ApiResponse> updateProductById(@RequestBody ProductRequest product) {
         productService.updateProduct(product);
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order updated"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product updated"), HttpStatus.OK);
     }
 
     @GetMapping()
@@ -62,7 +62,7 @@ public class ProductController {
     @Operation(summary = "Delete a product by ID")
     public ResponseEntity<ApiResponse> deleteProductById(@PathVariable Long id) {
         productService.deleteProductById(id);
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order cancelled"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product deleted"), HttpStatus.OK);
     }
 
 }

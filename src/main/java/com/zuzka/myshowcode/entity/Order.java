@@ -2,7 +2,9 @@ package com.zuzka.myshowcode.entity;
 
 
 import com.zuzka.myshowcode.enums.OrderState;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -12,6 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 
     @Id

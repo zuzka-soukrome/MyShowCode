@@ -32,7 +32,7 @@ public class OrderController {
     public ResponseEntity<ApiResponse> addNewOrder(@RequestBody OrderRequest order) {
         List<ItemRequest> missingItems = orderService.addNewOrder(order);
         if (ObjectUtils.isEmpty(missingItems)) {
-            return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product added"), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order added"), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ApiResponse("ITEMS_MISSING", missingItems.toString()), HttpStatus.OK);
         }
@@ -40,7 +40,7 @@ public class OrderController {
 
     @GetMapping()
     @Operation(summary = "Get all orders")
-    public ResponseEntity<ApiResponse> getAllProducts() {
+    public ResponseEntity<ApiResponse> getAllOrders() {
         List<Order> allOrders = orderService.getAllOrders();
         return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, allOrders.toString()), HttpStatus.OK);
     }
@@ -63,7 +63,7 @@ public class OrderController {
     @Operation(summary = "Cancel an order by ID")
     public ResponseEntity<ApiResponse> cancelOrder(@PathVariable Long id) {
         orderService.cancelOrder(id);
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Product deleted"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order cancelled"), HttpStatus.OK);
     }
 
 }
