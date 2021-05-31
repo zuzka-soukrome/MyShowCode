@@ -1,6 +1,6 @@
 package com.zuzka.myshowcode.controller;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zuzka.myshowcode.dto.ItemRequest;
 import com.zuzka.myshowcode.dto.OrderRequest;
 import com.zuzka.myshowcode.entity.Item;
@@ -36,6 +36,9 @@ class OrderControllerTest {
     @MockBean
     OrderService orderService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Test
     void addNewOrder() throws Exception {
         ItemRequest orderItem = new ItemRequest("rohlik", 50);
@@ -43,7 +46,7 @@ class OrderControllerTest {
         OrderRequest order = new OrderRequest(orderItems);
 
         mockMvc.perform(post("/orders")
-                .content(new Gson().toJson(order))
+                .content(objectMapper.writeValueAsString(order))
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"Order added\"}"));
@@ -60,7 +63,7 @@ class OrderControllerTest {
 
         mockMvc.perform(get("/orders"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"[Order(id=1, items=[Item(productName=rohlik, quantity=50)], state=NEW, createDateTime=2021-01-01T00:00)]\"}"));
+                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"[{\\\"id\\\":1,\\\"items\\\":[{\\\"productName\\\":\\\"rohlik\\\",\\\"quantity\\\":50}],\\\"state\\\":\\\"NEW\\\",\\\"createDateTime\\\":\\\"2021-01-01T00:00:00\\\"}]\"}"));
     }
 
     @Test
@@ -73,7 +76,7 @@ class OrderControllerTest {
 
         mockMvc.perform(get("/orders/1"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"Order(id=1, items=[Item(productName=rohlik, quantity=50)], state=NEW, createDateTime=2021-01-01T00:00)\"}"));
+                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"{\\\"id\\\":1,\\\"items\\\":[{\\\"productName\\\":\\\"rohlik\\\",\\\"quantity\\\":50}],\\\"state\\\":\\\"NEW\\\",\\\"createDateTime\\\":\\\"2021-01-01T00:00:00\\\"}\"}"));
 
     }
 

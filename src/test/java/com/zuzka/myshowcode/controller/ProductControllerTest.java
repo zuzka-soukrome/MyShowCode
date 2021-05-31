@@ -1,6 +1,6 @@
 package com.zuzka.myshowcode.controller;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zuzka.myshowcode.dto.ProductRequest;
 import com.zuzka.myshowcode.entity.Product;
 import com.zuzka.myshowcode.service.ProductService;
@@ -32,24 +32,27 @@ class ProductControllerTest {
     @MockBean
     ProductService productService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Test
     void addNewProduct() throws Exception {
         ProductRequest product = new ProductRequest("rohlik", 50, 1.50);
         mockMvc.perform(post("/products")
-                .content(new Gson().toJson(product))
+                .content(objectMapper.writeValueAsString(product))
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"Product added\"}"));
+                .andExpect(content().json("{\"status\":\"SUCCESS\",\"message\":\"Product added\"}"));
     }
 
     @Test
     void updateProductById() throws Exception {
         ProductRequest product = new ProductRequest("rohlik", 100, 1.90);
         mockMvc.perform(put("/products")
-                .content(new Gson().toJson(product))
+                .content(objectMapper.writeValueAsString(product))
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"Product updated\"}"));
+                .andExpect(content().json("{\"status\":\"SUCCESS\",\"message\":\"Product updated\"}"));
     }
 
     @Test
@@ -61,7 +64,7 @@ class ProductControllerTest {
 
         mockMvc.perform(get("/products"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"[Product(id=1, name=rohlik, quantityInStock=50, pricePerUnit=1.5)]\"}"));
+                .andExpect(content().json("{\"status\":\"SUCCESS\",\"message\":\"[{\\\"id\\\":1,\\\"name\\\":\\\"rohlik\\\",\\\"quantityInStock\\\":50,\\\"pricePerUnit\\\":1.5}]\"}"));
     }
 
     @Test
@@ -72,7 +75,7 @@ class ProductControllerTest {
 
         mockMvc.perform(get("/products/123"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"Product(id=123, name=rohlik, quantityInStock=50, pricePerUnit=1.5)\"}"));
+                .andExpect(content().json("{\"status\":\"SUCCESS\",\"message\":\"{\\\"id\\\":123,\\\"name\\\":\\\"rohlik\\\",\\\"quantityInStock\\\":50,\\\"pricePerUnit\\\":1.5}\"}"));
     }
 
     @Test
@@ -83,7 +86,7 @@ class ProductControllerTest {
 
         mockMvc.perform(get("/products/getByName").param("name", "rohlik"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"Product(id=123, name=rohlik, quantityInStock=50, pricePerUnit=1.5)\"}"));
+                .andExpect(content().string("{\"status\":\"SUCCESS\",\"message\":\"{\\\"id\\\":123,\\\"name\\\":\\\"rohlik\\\",\\\"quantityInStock\\\":50,\\\"pricePerUnit\\\":1.5}\"}"));
     }
 
     @Test

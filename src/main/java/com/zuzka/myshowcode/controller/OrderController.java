@@ -1,5 +1,7 @@
 package com.zuzka.myshowcode.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zuzka.myshowcode.dto.ApiResponse;
 import com.zuzka.myshowcode.dto.ItemRequest;
 import com.zuzka.myshowcode.dto.OrderRequest;
@@ -22,34 +24,36 @@ public class OrderController {
     private static final String SUCCESS_MESSAGE = "SUCCESS";
 
     private OrderService orderService;
+    private ObjectMapper objectMapper;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, ObjectMapper objectMapper) {
         this.orderService = orderService;
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping()
     @Operation(summary = "Create a new order")
-    public ResponseEntity<ApiResponse> addNewOrder(@RequestBody OrderRequest order) {
+    public ResponseEntity<ApiResponse> addNewOrder(@RequestBody OrderRequest order) throws JsonProcessingException {
         List<ItemRequest> missingItems = orderService.addNewOrder(order);
         if (ObjectUtils.isEmpty(missingItems)) {
             return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order added"), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ApiResponse("ITEMS_MISSING", missingItems.toString()), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponse("ITEMS_MISSING", objectMapper.writeValueAsString(missingItems)), HttpStatus.OK);
         }
     }
 
     @GetMapping()
     @Operation(summary = "Get all orders")
-    public ResponseEntity<ApiResponse> getAllOrders() {
+    public ResponseEntity<ApiResponse> getAllOrders() throws JsonProcessingException {
         List<Order> allOrders = orderService.getAllOrders();
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, allOrders.toString()), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, objectMapper.writeValueAsString(allOrders)), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     @Operation(summary = "Get an order by ID")
-    public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long id) {
-        var message = orderService.getOrderById(id).orElseThrow().toString();
-        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, message), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long id) throws JsonProcessingException {
+        var message = orderService.getOrderById(id).orElseThrow();
+        return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, objectMapper.writeValueAsString(message)), HttpStatus.OK);
     }
 
     @PatchMapping(path = "/pay/{id}")
