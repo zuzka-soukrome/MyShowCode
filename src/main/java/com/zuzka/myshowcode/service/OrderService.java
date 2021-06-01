@@ -26,7 +26,7 @@ public class OrderService {
     private ProductRepository productRepository;
     private ModelMapper modelMapper;
 
-    @Value("${order.expiration.minutes}")
+    @Value("${order.expiration.seconds}")
     private int orderExpirationTime;
 
     public OrderService(OrderRepository orderRepository, ProductRepository productRepository, ModelMapper modelMapper) {
@@ -70,7 +70,7 @@ public class OrderService {
     public void checkForExpiredOrders() {
         getAllOrders().stream()
                 .filter(order -> OrderState.NEW.equals(order.getState()))
-                .filter(order -> order.getCreateDateTime().until(LocalDateTime.now(), ChronoUnit.MINUTES) > orderExpirationTime)
+                .filter(order -> order.getCreateDateTime().until(LocalDateTime.now(), ChronoUnit.SECONDS) > orderExpirationTime)
                 .forEach(order -> {
                     cancelOrder(order.getId());
                     log.info("Order with id={} has expired. Cancelling the order.", order.getId());
