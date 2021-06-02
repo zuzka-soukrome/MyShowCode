@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +36,7 @@ public class OrderService {
 
     public List<ItemRequest> addNewOrder(OrderRequest order) {
         List<ItemRequest> missingItems = getMissingItems(order);
-        if(missingItems.isEmpty()){
+        if (missingItems.isEmpty()) {
             blockProductsInStock(order);
             orderRepository.save(modelMapper.map(order, Order.class));
             return new ArrayList<>();
@@ -67,10 +66,14 @@ public class OrderService {
         unblockProductsInStock(order);
     }
 
+    public List<Order> findAllWithCreationDateTimeAfter() {
+        return orderRepository.findAllWithCreationDateTimeAfter(LocalDateTime.now().minusHours(1));
+    }
+
     public void checkForExpiredOrders() {
-        getAllOrders().stream()
+        findAllWithCreationDateTimeAfter().stream()
                 .filter(order -> OrderState.NEW.equals(order.getState()))
-                .filter(order -> order.getCreateDateTime().until(LocalDateTime.now(), ChronoUnit.SECONDS) > orderExpirationTime)
+                .filter(order -> order.getCreateDateTime().plusSeconds(orderExpirationTime).isAfter(LocalDateTime.now()))
                 .forEach(order -> {
                     cancelOrder(order.getId());
                     log.info("Order with id={} has expired. Cancelling the order.", order.getId());

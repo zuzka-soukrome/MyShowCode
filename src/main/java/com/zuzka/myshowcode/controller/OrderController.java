@@ -10,7 +10,6 @@ import com.zuzka.myshowcode.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +32,7 @@ public class OrderController {
     @Operation(summary = "Create a new order")
     public ResponseEntity<ApiResponse> addNewOrder(@RequestBody OrderRequest order) throws JsonProcessingException {
         List<ItemRequest> missingItems = orderService.addNewOrder(order);
-        if (ObjectUtils.isEmpty(missingItems)) {
+        if (missingItems.isEmpty()) {
             return new ResponseEntity<>(new ApiResponse(SUCCESS_MESSAGE, "Order added"), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ApiResponse("ITEMS_MISSING", objectMapper.writeValueAsString(missingItems)), HttpStatus.OK);

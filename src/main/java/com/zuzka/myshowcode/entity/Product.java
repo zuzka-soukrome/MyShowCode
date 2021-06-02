@@ -23,8 +23,8 @@ public class Product {
     @NotBlank(message = "Name cannot be blank")
     private String name;
     @Min(value = 0, message = "Quantity in stock must be positive number")
-    private int quantityInStock;
+    private Integer quantityInStock;
     @Min(value = 0, message = "Price per unit must be positive number")
-    private double pricePerUnit;
+    private Double pricePerUnit;
 
 }
